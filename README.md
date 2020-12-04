@@ -28,7 +28,7 @@ View the total utilized budget of a department -- ie the combined salaries of al
 This generator requires the user to install node.js and then the inquirer, MySQL, and console.table packages.
 
 ## Usage 
-Run the code through the terminal. Use the command "node server.js" to prompt the questions used to generate the Employee Tracker.
+Run the code through the terminal. Use the command "node employeeTracker.js" to prompt the Employee Tracker.
 ![](./assets/media/screenshot.png)
 Checkout video of application here: 
 
