@@ -21,7 +21,8 @@ CREATE TABLE role (
     --to hold role salary--
     salary DECIMAL,
     --to hold reference to department role belongs to--
-    department_id INT
+    department_id INT, 
+    FOREIGN KEY (department_id) REFERENCES department(id) on delete cascade
 );
 
 
@@ -34,7 +35,9 @@ CREATE TABLE employee (
     --to hold employee last name--
     last_name VARCHAR(30) NOT NULL,
     --to hold reference to role employee has--
-    role_id INT,
+    role_id INT, 
+    FOREIGN KEY (role_id) REFERENCES role(id) on delete cascade,
     --to hold reference to another employee that manages the employee being Created. This field may be null if the employee has no manager--
-    manager_id INT
+    manager_id INT,
+    FOREIGN KEY (manager_id) REFERENCES employee on delete set null
 );
