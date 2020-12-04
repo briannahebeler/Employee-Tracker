@@ -2,7 +2,7 @@
 
 ## Description
 Node CLI
-allows user to add and view departments, roles, employees and update employee roles. so that the user can organize and plan their bsiness
+allows user to add and view departments, roles, employees and update employee roles. so that the user can organize and plan their business
 Content Management System 
 managing a companies employees 
 node inquirer MySQL
@@ -10,11 +10,6 @@ node inquirer MySQL
 You may wish to have a separate file containing functions for performing specific SQL queries you'll need to use. Could a constructor function or a class be helpful for organizing these?
 You will need to perform a variety of SQL JOINS to complete this assignment, and it's recommended you review the week's activities if you need a refresher on this.
 
-Hints
-You may wish to include a seed.sql file to pre-populate your database. This will make development of individual features much easier.
-Focus on getting the basic functionality completed before working on more advanced features.
-Review the week's activities for a refresher on MySQL.
-Check out SQL Bolt for some extra MySQL help.
 
 Bonus points if you're able to:
 Update employee managers

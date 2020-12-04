@@ -28,7 +28,7 @@ CREATE TABLE role (
 DROP TABLE IF EXISTS employee;
 
 CREATE TABLE employee (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     --to hold employee first name--
     first_name VARCHAR(30),
     --to hold employee last name--
