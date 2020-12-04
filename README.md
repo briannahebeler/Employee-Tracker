@@ -7,23 +7,6 @@ Content Management System
 managing a companies employees 
 node inquirer MySQL
 
-db- employee_tracker_db
-tables
-department:
-id - INT PRIMARY KEY
-name - VARCHAR(30) to hold department name
-role:
-id - INT PRIMARY KEY
-title - VARCHAR(30) to hold role title
-salary - DECIMAL to hold role salary
-department_id - INT to hold reference to department role belongs to
-employee:
-id - INT PRIMARY KEY
-first_name - VARCHAR(30) to hold employee first name
-last_name - VARCHAR(30) to hold employee last name
-role_id - INT to hold reference to role employee has
-manager_id - INT to hold reference to another employee that manages the employee being Created. This field may be null if the employee has no manager
-
 You may wish to have a separate file containing functions for performing specific SQL queries you'll need to use. Could a constructor function or a class be helpful for organizing these?
 You will need to perform a variety of SQL JOINS to complete this assignment, and it's recommended you review the week's activities if you need a refresher on this.
 
