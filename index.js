@@ -1,6 +1,8 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
-var consoleTable = require("console.table");
+const mysql = require("mysql");
+const inquirer = require("inquirer");
+const logo = require("asciiart-logo");
+const db = require("./db");
+require("console.table");
 
 var connection = mysql.createConnection({
     host: "localhost",
