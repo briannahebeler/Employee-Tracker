@@ -7,9 +7,10 @@ Content Management System
 managing a companies employees 
 node inquirer MySQL
 
+Other:
+
 You may wish to have a separate file containing functions for performing specific SQL queries you'll need to use. Could a constructor function or a class be helpful for organizing these?
 You will need to perform a variety of SQL JOINS to complete this assignment, and it's recommended you review the week's activities if you need a refresher on this.
-
 
 Bonus points if you're able to:
 Update employee managers
