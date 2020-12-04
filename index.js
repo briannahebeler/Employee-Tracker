@@ -1,4 +1,3 @@
-const mysql = require("mysql");
 const inquirer = require("inquirer");
 const logo = require("asciiart-logo");
 const db = require("./db");
@@ -9,9 +8,7 @@ init();
 // Display logo text, load main prompts
 function init() {
     const logoText = logo({ name: "Employee Manager" }).render();
-
     console.log(logoText);
-
     runSearch();
 }
 
