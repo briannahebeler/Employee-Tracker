@@ -88,7 +88,14 @@ function runSearch() {
 };
 
 function viewDepartments() {
-
+    connection.query(
+        "select * from department",
+        function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            runSearch();
+        }
+    )
 };
 
 function addDepartment() {
