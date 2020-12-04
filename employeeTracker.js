@@ -107,7 +107,14 @@ function deleteDepartment() {
 };
 
 function viewRoles() {
-
+    connection.query(
+        "select * from role",
+        function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            runSearch();
+        }
+    )
 };
 
 function addRole() {
@@ -119,7 +126,14 @@ function deleteRole() {
 };
 
 function viewEmployees() {
-
+    connection.query(
+        "select * from employee",
+        function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            runSearch();
+        }
+    )
 };
 
 function viewEmployeeByManger() {
