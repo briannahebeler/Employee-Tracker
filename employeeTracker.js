@@ -34,7 +34,7 @@ function runSearch() {
                 "add role",
                 "delete role",
                 "view employees",
-                "view employee by manager",
+                "view employees by manager",
                 "add employee",
                 "update employee role",
                 "update employee manager",
@@ -46,7 +46,43 @@ function runSearch() {
         console.log(answer);
         switch (answer.action) {
             case "view departments":
-            
+                viewDepartments();
+                break;
+            case "add department":
+                addDepartment();
+                break;
+            case "delete department":
+                deleteDepartment();
+                break;
+            case "view roles":
+                viewRoles();
+                break;
+            case "add role":
+                addRole();
+                break;
+            case "delete role":
+                deleteRole();
+                break;
+            case "view employees":
+                viewEmployees();
+                break;
+            case "view employees by manager":
+                viewEmployeeByManger();
+                break;
+            case "add employee":
+                addEmployee();
+                break;
+            case "update employee role":
+                updateEmployeeRole();
+                break;
+            case "update employee manager":
+                updateEmployeeManager();
+                break;
+            case "delete employee":
+                deleteEmployee();
+                break;
+            default:
+                break;
         }
     })
 };
