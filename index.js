@@ -4,28 +4,21 @@ const logo = require("asciiart-logo");
 const db = require("./db");
 require("console.table");
 
-var connection = mysql.createConnection({
-    host: "localhost",
+init();
 
-    port: 3306,
+// Display logo text, load main prompts
+function init() {
+    const logoText = logo({ name: "Employee Manager" }).render();
 
-    user: "root",
+    console.log(logoText);
 
-    password: "password",
-
-    database: "employee_tracker_db"
-});
-
-connection.connect(function(err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
     runSearch();
-});
+}
 
 function runSearch() {
     inquirer.prompt(
         {
-            name: "action",
+            name: "choice",
             type: "list",
             message: "What would you like to do?",
             choices: [
@@ -44,7 +37,7 @@ function runSearch() {
                 "exit"
             ]
         }
-    ).then(function(answer) {
+    ).then(function (answer) {
         console.log(answer);
         switch (answer.action) {
             case "view departments":
