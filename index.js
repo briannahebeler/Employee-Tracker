@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const logo = require("asciiart-logo");
-const db = require("./db");
+const db = require("./db/connection");
 require("console.table");
 
 init();
@@ -74,7 +74,7 @@ function runSearch() {
                 deleteEmployee();
                 break;
             default:
-                break;
+                return quit();
         }
     })
 };
@@ -147,3 +147,8 @@ function updateEmployeeManager() {
 function deleteEmployee() {
 
 };
+
+function quit() {
+    console.log("Goodbye!");
+    process.exit();
+}
