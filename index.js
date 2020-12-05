@@ -1,3 +1,4 @@
+var mysql = require("mysql");
 var inquirer = require("inquirer");
 const connection = require("./db/connection");
 const logo = require("asciiart-logo");
@@ -77,7 +78,9 @@ function runSearch() {
             case "Remove Department":
                 removeDepartment();
                 break;
-            default:
+            case "Exit":
+                console.log("Goodbye.");
+                connection.end();
                 break;
         }
     })
@@ -95,7 +98,25 @@ function viewDepartments() {
 };
 
 function addDepartment() {
-
+    inquirer.prompt(
+        {
+            name: "name",
+            type: "input",
+            message: "What is the name of the department you would like to add?"
+        }).then(function(answer) {
+            console.log("Inserting a new product...\n");
+            connection.query(
+                "insert into department set ?",
+                {
+                    name: answer.name
+                },
+                function(err) {
+                    if (err) throw err;
+                    console.log("Department created.\n");
+                    viewDepartments();
+                }
+            )
+        })
 };
 
 function removeDepartment() {
