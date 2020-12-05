@@ -113,7 +113,7 @@ function addDepartment() {
                 function (err) {
                     if (err) throw err;
                     console.log("Department created.\n");
-                    viewDepartments();
+                    runSearch();
                 }
             )
         })
@@ -174,7 +174,7 @@ function addRole() {
             function (err) {
                 if (err) throw err;
                 console.log("Role created.\n");
-                viewRoles();
+                runSearch();
             }
         )
     })
@@ -204,7 +204,55 @@ function viewEmployeeByDepartment() {
 };
 
 function addEmployee() {
-
+    inquirer.prompt([
+        {
+            name: "first_name",
+            type: "input",
+            message: "What is the employees first name?"
+        }, {
+            name: "last_name",
+            type: "input",
+            message: "What is the employees last name?",
+        },
+        {
+            name: "role_id",
+            type: "input",
+            message: "What is the id of the employee's role?",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        },
+        {
+            name: "manager_id",
+            type: "input",
+            message: "What is the id of the employee's manager?",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        }
+    ]).then(function (answer) {
+        console.log("Inserting a new employee...\n");
+        connection.query(
+            "insert into employee set ?",
+            {
+                first_name: answer.first_name,
+                last_name: answer.last_name,
+                role_id: answer.role_id,
+                manager_id: answer.manager_id
+            },
+            function (err) {
+                if (err) throw err;
+                console.log("Employee created.\n");
+                runSearch();
+            }
+        )
+    })
 };
 
 function updateEmployeeRole() {
