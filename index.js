@@ -120,7 +120,20 @@ function addDepartment() {
 };
 
 function removeDepartment() {
-
+    inquirer.prompt({
+        name: "name",
+        type: "choice",
+        message: "Which department would you like to remove?",
+        choices:[
+            connection.query(
+                "select department.name FROM department",
+                function (err, result) {
+                    if (err) throw err;
+                    console.log(result);
+                }
+            )
+        ]
+    })
 };
 
 function viewRoles() {
