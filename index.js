@@ -1,7 +1,7 @@
-const inquirer = require("inquirer");
-const logo = require("asciiart-logo");
+var inquirer = require("inquirer");
 const connection = require("./db/connection");
-require("console.table");
+const logo = require("asciiart-logo");
+var consoleTable = require("console.table");
 
 init();
 
@@ -15,66 +15,70 @@ function init() {
 function runSearch() {
     inquirer.prompt(
         {
-            name: "choice",
+            name: "action",
             type: "list",
             message: "What would you like to do?",
             choices: [
-                "view departments",
-                "add department",
-                "delete department",
-                "view roles",
-                "add role",
-                "delete role",
-                "view employees",
-                "view employees by manager",
-                "add employee",
-                "update employee role",
-                "update employee manager",
-                "delete employee",
-                "exit"
+                "View All Employees",
+                "View All Employees By Department",
+                "View All Employees By Manager",
+                "Add Employee",
+                "Remove Employee",
+                "Update Employee Role",
+                "Update Employee Manager",
+                "View All Roles",
+                "Add Role",
+                "Remove Role",
+                "View All Departments",
+                "Add Department",
+                "Remove Department",
+                "Exit"
             ]
         }
-    ).then(function (answer) {
+    ).then(function(answer) {
         console.log(answer);
         switch (answer.action) {
-            case "view departments":
-                viewDepartments();
-                break;
-            case "add department":
-                addDepartment();
-                break;
-            case "delete department":
-                deleteDepartment();
-                break;
-            case "view roles":
-                viewRoles();
-                break;
-            case "add role":
-                addRole();
-                break;
-            case "delete role":
-                deleteRole();
-                break;
-            case "view employees":
+            case "View All Employees":
                 viewEmployees();
                 break;
-            case "view employees by manager":
+            case "View All Employees By Department":
+                viewEmployeeByDepartment();
+                break;
+            case "View All Employees By Manager":
                 viewEmployeeByManger();
                 break;
-            case "add employee":
+            case "Add Employee":
                 addEmployee();
                 break;
-            case "update employee role":
+            case "Update Employee Role":
                 updateEmployeeRole();
                 break;
-            case "update employee manager":
+            case "Update Employee Manager":
                 updateEmployeeManager();
                 break;
-            case "delete employee":
-                deleteEmployee();
+            case "Remove Employee":
+                removeEmployee();
+                break;
+            case "View All Roles":
+                viewRoles();
+                break;
+            case "Add Role":
+                addRole();
+                break;
+            case "Remove Role":
+                removeRole();
+                break;
+            case "View All Departments":
+                viewDepartments();
+                break;
+            case "Add Department":
+                addDepartment();
+                break;
+            case "Remove Department":
+                removeDepartment();
                 break;
             default:
-                return quit();
+                break;
         }
     })
 };
@@ -94,7 +98,7 @@ function addDepartment() {
 
 };
 
-function deleteDepartment() {
+function removeDepartment() {
 
 };
 
@@ -113,7 +117,7 @@ function addRole() {
 
 };
 
-function deleteRole() {
+function removeRole() {
 
 };
 
@@ -132,6 +136,10 @@ function viewEmployeeByManger() {
 
 };
 
+function viewEmployeeByDepartment() {
+
+};
+
 function addEmployee() {
 
 };
@@ -144,11 +152,6 @@ function updateEmployeeManager() {
 
 };
 
-function deleteEmployee() {
+function removeEmployee() {
 
 };
-
-function quit() {
-    console.log("Goodbye!");
-    process.exit();
-}
