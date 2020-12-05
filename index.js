@@ -36,7 +36,7 @@ function runSearch() {
                 "Exit"
             ]
         }
-    ).then(function(answer) {
+    ).then(function (answer) {
         console.log(answer);
         switch (answer.action) {
             case "View All Employees":
@@ -103,14 +103,14 @@ function addDepartment() {
             name: "name",
             type: "input",
             message: "What is the name of the department you would like to add?"
-        }).then(function(answer) {
-            console.log("Inserting a new product...\n");
+        }).then(function (answer) {
+            console.log("Inserting a new department...\n");
             connection.query(
                 "insert into department set ?",
                 {
                     name: answer.name
                 },
-                function(err) {
+                function (err) {
                     if (err) throw err;
                     console.log("Department created.\n");
                     viewDepartments();
@@ -135,7 +135,49 @@ function viewRoles() {
 };
 
 function addRole() {
-
+    inquirer.prompt([
+        {
+            name: "title",
+            type: "input",
+            message: "What is the title of the role you would like to add?"
+        }, {
+            name: "salary",
+            type: "input",
+            message: "What is the salary of the role you would like to add?",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        },
+        {
+            name: "department_id",
+            type: "input",
+            message: "What is the id of the department you would like to add the role to?",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        }
+    ]).then(function (answer) {
+        console.log("Inserting a new role...\n");
+        connection.query(
+            "insert into role set ?",
+            {
+                title: answer.title,
+                salary: answer.salary,
+                department_id: answer.department_id
+            },
+            function (err) {
+                if (err) throw err;
+                console.log("Role created.\n");
+                viewRoles();
+            }
+        )
+    })
 };
 
 function removeRole() {
