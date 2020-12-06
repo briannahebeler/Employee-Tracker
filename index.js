@@ -120,20 +120,30 @@ function addDepartment() {
 };
 
 function removeDepartment() {
-    inquirer.prompt({
-        name: "name",
-        type: "choice",
-        message: "Which department would you like to remove?",
-        choices:[
-            connection.query(
-                "select department.name FROM department",
-                function (err, result) {
-                    if (err) throw err;
-                    console.log(result);
-                }
-            )
-        ]
-    })
+    connection.query(
+        "select department.name FROM department",
+        function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            inquirer.prompt({
+                name: "name",
+                type: "list",
+                message: "Which department would you like to remove?",
+                choices: result
+            }).then(function(answer){
+                connection.query(
+                    "DELETE FROM department WHERE ?",
+                    {
+                        name: answer.name
+                    },
+                    function() {
+                        console.log("Department removed.\n");
+                        runSearch();
+                    }
+                )
+            })
+        }
+    )
 };
 
 function viewRoles() {
@@ -194,7 +204,30 @@ function addRole() {
 };
 
 function removeRole() {
-
+    connection.query(
+        "select title FROM role",
+        function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            inquirer.prompt({
+                name: "title",
+                type: "list",
+                message: "Which role would you like to remove?",
+                choices: result
+            }).then(function(answer){
+                connection.query(
+                    "DELETE FROM role WHERE ?",
+                    {
+                        title: answer.title
+                    },
+                    function() {
+                        console.log("Role removed.\n");
+                        runSearch();
+                    }
+                )
+            })
+        }
+    )
 };
 
 function viewEmployees() {
@@ -269,7 +302,63 @@ function addEmployee() {
 };
 
 function updateEmployeeRole() {
-
+    connection.query(
+        "select employee.id, first_name, last_name, role_id, title FROM employee inner join role on employee.role_id = role.id",
+        function (err, result) {
+            if (err) throw err;
+            employeeName = result.map((person) => {
+                return person.id + ": " + person.first_name + " " + person.last_name + ", " + person.title
+            })
+            console.log(employeeName);
+            role = result.map((person) => {
+                return person.role_id + ": " + person.title
+            })
+            console.log(role);
+            inquirer.prompt([
+                {
+                name: "name",
+                type: "list",
+                message: "Which employee would you like to update?",
+                choices: employeeName
+                },
+                {
+                name: "role",
+                type: "list",
+                message: "Which role would you like to update the employee with?",
+                choices: role
+                }
+            ]).then(function(answer) {
+                connection.query(
+                    "UPDATE employee SET role_id = ? WHERE id = ?",
+                    [
+                        [ 2
+                            // function(err) {
+                            //     if (err) throw err;
+                            //     role = answer.role,
+                            //     console.log(role),
+                            //     role_id = role.map((person) => {person.role_id}),
+                            //     console.log(role_id)
+                            // }
+                        ], 
+                        [ 1
+                            // function(err) {
+                            //     if (err) throw err;
+                            //     id = answer.name,
+                            //     console.log(id),
+                            //     id = id.map((person) => {person.id}),
+                            //     console.log(id)
+                            // }
+                        ]
+                    ],
+                    function (err) {
+                        if (err) throw err;
+                        console.log("Employee updated. \n");
+                        runSearch();
+                    }
+                )
+            })
+        }
+    )
 };
 
 function updateEmployeeManager() {
