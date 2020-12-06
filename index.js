@@ -125,11 +125,16 @@ function removeDepartment() {
         function (err, result) {
             if (err) throw err;
             console.log(result);
+            var tempChoices = [];
+            for (i=0; i<result.length; i++){
+                tempChoices.push(result[i].name);
+            };
+            console.log(tempChoices);
             inquirer.prompt({
                 name: "name",
                 type: "list",
                 message: "Which department would you like to remove?",
-                choices: result
+                choices: tempChoices
             }).then(function(answer){
                 connection.query(
                     "DELETE FROM department WHERE ?",
@@ -209,12 +214,18 @@ function removeRole() {
         function (err, result) {
             if (err) throw err;
             console.log(result);
+            var tempChoices = [];
+            for (i=0; i<result.length; i++){
+                tempChoices.push(result[i].title);
+            };
+            console.log(tempChoices);
             inquirer.prompt({
                 name: "title",
                 type: "list",
                 message: "Which role would you like to remove?",
-                choices: result
+                choices: tempChoices
             }).then(function(answer){
+                console.log(answer)
                 connection.query(
                     "DELETE FROM role WHERE ?",
                     {
