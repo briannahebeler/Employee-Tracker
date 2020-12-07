@@ -16,6 +16,7 @@ This generator requires the user to install node.js and then the inquirer, MySQL
 ## Usage 
 Run the code through the terminal. Use the command "node index.js" to prompt the Employee Tracker.
 ![](./assets/media/screenshot.png)
+\n
 Checkout video of application here: 
 
 ## Contributing
