@@ -269,13 +269,11 @@ function viewEmployees() {
 //     )
 // };
 
-//need help//
 function viewEmployeeByDepartment() {
     connection.query(
         "select name FROM department",
         function (err, result) {
             if (err) throw err;
-            console.log(result);
             var depChoices = [];
             for (i=0; i<result.length; i++){
                 depChoices.push(result[i].name);
@@ -287,16 +285,13 @@ function viewEmployeeByDepartment() {
                 message: "Which department would you like to see employees for?",
                 choices: depChoices
             }).then(function(answer){
-                console.log("before connection: " + answer.name)
+                console.log("name:" + answer.name)
                 connection.query(
                     "select employee.id, employee.first_name, employee.last_name, role.title, department.name from employee left join role on employee.role_id = role.id left join department on role.department_id = department.id where department.name = ?",
-                    {
-                        name: answer.name
-                    },
-                    console.log(result),
+                    answer.name,
                     function(err, result) {
                         if (err) throw err;
-                        console.log(result + " \n");
+                        console.table(result);
                         runSearch();
                     }
                 )
