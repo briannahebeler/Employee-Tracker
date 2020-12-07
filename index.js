@@ -278,14 +278,14 @@ function viewEmployeeByDepartment() {
             for (i = 0; i < result.length; i++) {
                 depChoices.push(result[i].name);
             };
-            console.log(depChoices);
+            // console.log(depChoices);
             inquirer.prompt({
                 name: "name",
                 type: "list",
                 message: "Which department would you like to see employees for?",
                 choices: depChoices
             }).then(function (answer) {
-                console.log("name:" + answer.name)
+                // console.log("name:" + answer.name)
                 connection.query(
                     "select employee.id, employee.first_name, employee.last_name, role.title, department.name from employee left join role on employee.role_id = role.id left join department on role.department_id = department.id where department.name = ?",
                     answer.name,
