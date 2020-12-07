@@ -131,7 +131,7 @@ function removeDepartment() {
             if (err) throw err;
             console.log(result);
             var tempChoices = [];
-            for (i=0; i<result.length; i++){
+            for (i = 0; i < result.length; i++) {
                 tempChoices.push(result[i].name);
             };
             console.log(tempChoices);
@@ -140,13 +140,13 @@ function removeDepartment() {
                 type: "list",
                 message: "Which department would you like to remove?",
                 choices: tempChoices
-            }).then(function(answer){
+            }).then(function (answer) {
                 connection.query(
                     "DELETE FROM department WHERE ?",
                     {
                         name: answer.name
                     },
-                    function() {
+                    function () {
                         console.log("Department removed.\n");
                         runSearch();
                     }
@@ -221,7 +221,7 @@ function removeRole() {
             if (err) throw err;
             console.log(result);
             var tempChoices = [];
-            for (i=0; i<result.length; i++){
+            for (i = 0; i < result.length; i++) {
                 tempChoices.push(result[i].title);
             };
             console.log(tempChoices);
@@ -230,14 +230,14 @@ function removeRole() {
                 type: "list",
                 message: "Which role would you like to remove?",
                 choices: tempChoices
-            }).then(function(answer){
+            }).then(function (answer) {
                 console.log(answer)
                 connection.query(
                     "DELETE FROM role WHERE ?",
                     {
                         title: answer.title
                     },
-                    function() {
+                    function () {
                         console.log("Role removed.\n");
                         runSearch();
                     }
@@ -275,7 +275,7 @@ function viewEmployeeByDepartment() {
         function (err, result) {
             if (err) throw err;
             var depChoices = [];
-            for (i=0; i<result.length; i++){
+            for (i = 0; i < result.length; i++) {
                 depChoices.push(result[i].name);
             };
             console.log(depChoices);
@@ -284,12 +284,12 @@ function viewEmployeeByDepartment() {
                 type: "list",
                 message: "Which department would you like to see employees for?",
                 choices: depChoices
-            }).then(function(answer){
+            }).then(function (answer) {
                 console.log("name:" + answer.name)
                 connection.query(
                     "select employee.id, employee.first_name, employee.last_name, role.title, department.name from employee left join role on employee.role_id = role.id left join department on role.department_id = department.id where department.name = ?",
                     answer.name,
-                    function(err, result) {
+                    function (err, result) {
                         if (err) throw err;
                         console.table(result);
                         runSearch();
@@ -301,55 +301,64 @@ function viewEmployeeByDepartment() {
 };
 
 function addEmployee() {
-    inquirer.prompt([
-        {
-            name: "first_name",
-            type: "input",
-            message: "What is the employees first name?"
-        }, {
-            name: "last_name",
-            type: "input",
-            message: "What is the employees last name?",
-        },
-        {
-            name: "role_id",
-            type: "input",
-            message: "What is the id of the employee's role?",
-            validate: function (value) {
-                if (isNaN(value) === false) {
-                    return true;
+    connection.query(
+        "select employee.id, first_name, last_name, role_id, title FROM employee inner join role on employee.role_id = role.id",
+        function (err, result) {
+            if (err) throw err;
+            roleOpt = result.map((option) => {
+                return option.role_id + " " + option.title
+            })
+            managerOpt = result.map((option) => {
+                return option.id + " " + option.first_name + " " + option.last_name
+            })
+
+            inquirer.prompt([
+                {
+                    name: "first_name",
+                    type: "input",
+                    message: "What is the employees first name?"
+                }, {
+                    name: "last_name",
+                    type: "input",
+                    message: "What is the employees last name?",
+                },
+                {
+                    name: "role_id",
+                    type: "list",
+                    message: "What is the employee's role?",
+                    choices: roleOpt
+                },
+                {
+                    name: "manager_id",
+                    type: "list",
+                    message: "Who is the employee's manager?",
+                    choices: managerOpt
                 }
-                return false;
-            }
-        },
-        {
-            name: "manager_id",
-            type: "input",
-            message: "What is the id of the employee's manager?",
-            validate: function (value) {
-                if (isNaN(value) === false) {
-                    return true;
-                }
-                return false;
-            }
+            ]).then(function (answer) {
+                var str1 = answer.role_id;
+                var chosenRole = str1.split(" ")
+                console.log(chosenRole)
+                var str2 = answer.manager_id;
+                var chosenMan = str2.split(" ");
+                console.log(chosenMan);
+                console.log("Inserting a new employee...\n");
+                connection.query(
+                    "insert into employee set ?",
+                    {
+                        first_name: answer.first_name,
+                        last_name: answer.last_name,
+                        role_id: chosenRole[0],
+                        manager_id:chosenMan[0]
+                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log("Employee created.\n");
+                        runSearch();
+                    }
+                )
+            })
         }
-    ]).then(function (answer) {
-        console.log("Inserting a new employee...\n");
-        connection.query(
-            "insert into employee set ?",
-            {
-                first_name: answer.first_name,
-                last_name: answer.last_name,
-                role_id: answer.role_id,
-                manager_id: answer.manager_id
-            },
-            function (err) {
-                if (err) throw err;
-                console.log("Employee created.\n");
-                runSearch();
-            }
-        )
-    })
+    )
 };
 
 function updateEmployeeRole() {
@@ -365,18 +374,18 @@ function updateEmployeeRole() {
             })
             inquirer.prompt([
                 {
-                name: "name",
-                type: "list",
-                message: "Which employee would you like to update?",
-                choices: employeeName
+                    name: "name",
+                    type: "list",
+                    message: "Which employee would you like to update?",
+                    choices: employeeName
                 },
                 {
-                name: "role",
-                type: "list",
-                message: "Which role would you like to update the employee with?",
-                choices: role
+                    name: "role",
+                    type: "list",
+                    message: "Which role would you like to update the employee with?",
+                    choices: role
                 }
-            ]).then(function(answer) {
+            ]).then(function (answer) {
                 var str1 = answer.name;
                 var chosenEmp = str1.split(" ");
                 console.log(chosenEmp);
