@@ -352,20 +352,17 @@ function addEmployee() {
     })
 };
 
-//need help//
 function updateEmployeeRole() {
     connection.query(
         "select employee.id, first_name, last_name, role_id, title FROM employee inner join role on employee.role_id = role.id",
         function (err, result) {
             if (err) throw err;
             employeeName = result.map((person) => {
-                return person.id + ": " + person.first_name + " " + person.last_name + ", " + person.title
+                return person.id + " " + person.first_name + " " + person.last_name + ", " + person.title
             })
-            console.log(employeeName);
             role = result.map((person) => {
-                return person.role_id + ": " + person.title
+                return person.role_id + " " + person.title
             })
-            console.log(role);
             inquirer.prompt([
                 {
                 name: "name",
@@ -380,28 +377,15 @@ function updateEmployeeRole() {
                 choices: role
                 }
             ]).then(function(answer) {
+                var str1 = answer.name;
+                var chosenEmp = str1.split(" ");
+                console.log(chosenEmp);
+                var str2 = answer.role;
+                var chosenRole = str2.split(" ");
+                console.log(chosenRole);
                 connection.query(
                     "UPDATE employee SET role_id = ? WHERE id = ?",
-                    [
-                        [ 2
-                            // function(err) {
-                            //     if (err) throw err;
-                            //     role = answer.role,
-                            //     console.log(role),
-                            //     role_id = role.map((person) => {person.role_id}),
-                            //     console.log(role_id)
-                            // }
-                        ], 
-                        [ 1
-                            // function(err) {
-                            //     if (err) throw err;
-                            //     id = answer.name,
-                            //     console.log(id),
-                            //     id = id.map((person) => {person.id}),
-                            //     console.log(id)
-                            // }
-                        ]
-                    ],
+                    [chosenRole[0], chosenEmp[0]],
                     function (err) {
                         if (err) throw err;
                         console.log("Employee updated. \n");
