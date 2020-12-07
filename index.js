@@ -2,7 +2,7 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 const connection = require("./db/connection");
 const logo = require("asciiart-logo");
-var consoleTable = require("console.table");
+// var consoleTable = require("console.table");
 
 init();
 
@@ -22,11 +22,11 @@ function runSearch() {
             choices: [
                 "View All Employees",
                 "View All Employees By Department",
-                "View All Employees By Manager",
+                // "View All Employees By Manager",
                 "Add Employee",
-                "Remove Employee",
+                // "Remove Employee",
                 "Update Employee Role",
-                "Update Employee Manager",
+                // "Update Employee Manager",
                 "View All Roles",
                 "Add Role",
                 "Remove Role",
@@ -45,21 +45,21 @@ function runSearch() {
             case "View All Employees By Department":
                 viewEmployeeByDepartment();
                 break;
-            case "View All Employees By Manager":
-                viewEmployeeByManger();
-                break;
+            // case "View All Employees By Manager":
+            //     viewEmployeeByManger();
+            //     break;
             case "Add Employee":
                 addEmployee();
                 break;
             case "Update Employee Role":
                 updateEmployeeRole();
                 break;
-            case "Update Employee Manager":
-                updateEmployeeManager();
-                break;
-            case "Remove Employee":
-                removeEmployee();
-                break;
+            // case "Update Employee Manager":
+            //     updateEmployeeManager();
+            //     break;
+            // case "Remove Employee":
+            //     removeEmployee();
+            //     break;
             case "View All Roles":
                 viewRoles();
                 break;
@@ -252,12 +252,51 @@ function viewEmployees() {
     )
 };
 
-function viewEmployeeByManger() {
+// function viewEmployeeByManger() {
+//     connection.query(
+//         "select * from employee",
+//         function (err, result) {
+//             if (err) throw err;
+//             console.log(result);
+//             runSearch();
+//         }
+//     )
+// };
 
-};
-
+//need help//
 function viewEmployeeByDepartment() {
-
+    connection.query(
+        "select name FROM department",
+        function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            var depChoices = [];
+            for (i=0; i<result.length; i++){
+                depChoices.push(result[i].name);
+            };
+            console.log(depChoices);
+            inquirer.prompt({
+                name: "name",
+                type: "list",
+                message: "Which department would you like to see employees for?",
+                choices: depChoices
+            }).then(function(answer){
+                console.log("before connection: " + answer.name)
+                connection.query(
+                    "select employee.id, employee.first_name, employee.last_name, role.title, department.name from employee left join role on employee.role_id = role.id left join department on role.department_id = department.id where department.name = ?",
+                    {
+                        name: answer.name
+                    },
+                    console.log(result),
+                    function(err, result) {
+                        if (err) throw err;
+                        console.log(result + " \n");
+                        runSearch();
+                    }
+                )
+            })
+        }
+    )
 };
 
 function addEmployee() {
@@ -312,6 +351,7 @@ function addEmployee() {
     })
 };
 
+//need help//
 function updateEmployeeRole() {
     connection.query(
         "select employee.id, first_name, last_name, role_id, title FROM employee inner join role on employee.role_id = role.id",
@@ -372,10 +412,37 @@ function updateEmployeeRole() {
     )
 };
 
-function updateEmployeeManager() {
+// function updateEmployeeManager() {
 
-};
+// };
 
-function removeEmployee() {
-
-};
+// function removeEmployee() {
+//     connection.query(
+//         "select id, first_name, last_name FROM employee",
+//         function (err, result) {
+//             if (err) throw err;
+//             employeeNames = result.map((person) => {
+//                 return person.id + ": " + person.first_name + " " + person.last_name})
+//             console.log(employeeNames);
+//             inquirer.prompt({
+//                 name: "name",
+//                 type: "list",
+//                 message: "Which employee would you like to remove?",
+//                 choices: employeeNames
+//             }).then(function(answer){
+//                 console.log(answer)
+//                 connection.query(
+//                     "DELETE FROM employee WHERE id = ?",
+//                     {
+//                         //need to get just id from users choice
+//                         id: answer.id
+//                     },
+//                     function() {
+//                         console.log("Employee removed.\n");
+//                         runSearch();
+//                     }
+//                 )
+//             })
+//         }
+//     )
+// };
