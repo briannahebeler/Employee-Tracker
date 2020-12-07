@@ -2,7 +2,7 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 const connection = require("./db/connection");
 const logo = require("asciiart-logo");
-// var consoleTable = require("console.table");
+var consoleTable = require("console.table");
 
 init();
 
@@ -33,6 +33,7 @@ function runSearch() {
                 "View All Departments",
                 "Add Department",
                 "Remove Department",
+                // "View the total utilized budget of a department",
                 "Exit"
             ]
         }
@@ -78,6 +79,9 @@ function runSearch() {
             case "Remove Department":
                 removeDepartment();
                 break;
+            // case "View the total utilized budget of a department":
+            //     viewBudget();
+            //     break;
             case "Exit":
                 console.log("Goodbye.");
                 connection.end();
@@ -91,7 +95,7 @@ function viewDepartments() {
         "select * from department",
         function (err, result) {
             if (err) throw err;
-            console.log(result);
+            console.table(result);
             runSearch();
         }
     )
@@ -157,7 +161,7 @@ function viewRoles() {
         "select * from role",
         function (err, result) {
             if (err) throw err;
-            console.log(result);
+            console.table(result);
             runSearch();
         }
     )
@@ -248,7 +252,7 @@ function viewEmployees() {
         "select * from employee",
         function (err, result) {
             if (err) throw err;
-            console.log(result);
+            console.table(result);
             runSearch();
         }
     )
@@ -450,3 +454,6 @@ function updateEmployeeRole() {
 // };
 
 //BONUS Function to - View the total utilized budget of a department//
+// function viewBudget() {
+
+// };
