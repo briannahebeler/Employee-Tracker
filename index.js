@@ -119,6 +119,7 @@ function addDepartment() {
         })
 };
 
+//BONUS//
 function removeDepartment() {
     connection.query(
         "select department.name FROM department",
@@ -208,6 +209,7 @@ function addRole() {
     })
 };
 
+//BONUS//
 function removeRole() {
     connection.query(
         "select title FROM role",
@@ -252,7 +254,7 @@ function viewEmployees() {
     )
 };
 
-// function viewEmployeeByManger() {
+// BONUS function viewEmployeeByManger() {
 //     connection.query(
 //         "select * from employee",
 //         function (err, result) {
@@ -412,11 +414,11 @@ function updateEmployeeRole() {
     )
 };
 
-// function updateEmployeeManager() {
+// BONUS function updateEmployeeManager() {
 
 // };
 
-// function removeEmployee() {
+// BONUS function removeEmployee() {
 //     connection.query(
 //         "select id, first_name, last_name FROM employee",
 //         function (err, result) {
@@ -446,3 +448,5 @@ function updateEmployeeRole() {
 //         }
 //     )
 // };
+
+//BONUS Function to - View the total utilized budget of a department//
